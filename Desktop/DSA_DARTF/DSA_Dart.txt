@@ -1,0 +1,166 @@
+//Reversed String
+
+void main() {
+  String word = "Hello World";
+  String reversedWord = "";
+  for (var i = word.length -1; i > -1; i--){
+    reversedWord = reversedWord + word[i];
+  }
+  
+  print(reversedWord);
+}
+
+// Palindrome
+bool isPalindrome(String word) {
+  for (int i = 0; i< word.length ~/ 2; i++){
+    if(word[i] != word[word.length - i -1]){
+      return false;
+    }
+  }
+  return true;
+}
+
+// Array Chunks
+void main() {
+  var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  var len = letters.length;
+  var size = 2;
+  var chunks = [];
+
+  for(var i = 0; i< len; i+= size) {    
+    var end = (i+size<len)?i+size:len;
+    chunks.add(letters.sublist(i,end));
+  }
+  print(chunks);
+}
+
+// Anagram
+
+void main() {
+  var a = anagram("ABA", "ABAA");
+  print(a);
+}
+
+bool anagram(String str1, String srt2){
+
+    var string1 = str1.toLowerCase();
+    var string2 = srt2.toLowerCase();
+
+    if (string1 == string2) {
+        return true;
+    }
+    return false;
+}
+
+// Pyriamid in dart
+
+void main(){
+  const int row = 5;
+  for (int i = 0; i < row; i++) {
+    print(" "*(row-i)+"* "*i);
+  }
+}
+
+// Number of vowels
+
+void main(){
+  int vowel = 0;
+  var main = "Please enter the string:";
+  
+  for (int j = 0; j < main.length; j++){
+    if (main[j] == 'a' || main[j] == 'A' || main[j] == 'e' || main[j] == 'E' || main[j] == 'i' || main[j] == 'I' || main[j] == 'o' || main[j] == 'O' || main[j] == 'u' || main[j] == 'U'){
+      vowel++;
+    }
+  }
+  
+  print("Number of vowels in sentence is :$vowel");
+}
+
+
+// Fibonacci
+
+void main() {
+  for (int i = 0; i < 10; i++){
+    print(fibonacci(i));
+  }
+}
+
+int fibonacci(int n){
+  if (n == 0 || n ==1) {
+    return n;
+  }
+  
+  return fibonacci(n -1) + fibonacci(n - 2);
+}
+
+//Binary Tree
+
+List sortedData = [0,1,2,3,4,5,6,7,8,9];
+
+void findMe(target, start, end) {
+  int middle = start + end ~/2;
+  
+  if (middle == target){
+   return print("Found you at index $middle"); 
+  }
+  
+  if (target < sortedData[middle]){
+    return findMe(target, start, middle - 1);
+  }
+  
+  if (target > sortedData[middle]) {
+    return findMe(target, middle + 1, end);
+  }
+  
+}
+
+void main() {
+  findMe(5,0, sortedData.length);
+}
+
+
+// Stack
+
+class Stack {
+  List<dynamic> _items = [];
+  bool get isEmmpty => _items.isEmpty;
+  
+  void push(dynamic item){
+    _items.add(item);
+  }
+  
+  dynamic pop() {
+    if (_items.isEmpty) {
+      throw StateError("Stack is empty");
+    }
+    return _items.removeLast();
+  }
+  
+  dynamic peek() {
+    if (_items.isEmpty) {
+      throw StateError("Stack is empty");
+    }
+    return _items.last;
+  }
+  
+  void display() {
+    print("Stack: $_items");
+  }
+}
+
+void main() {
+  Stack myStack = Stack();
+
+  myStack.push(1);
+  myStack.push(2);
+  myStack.push(3);
+
+  print("Original Stack:");
+  myStack.display();
+
+  print("\nPop operation result: ${myStack.pop()}");
+
+  print("Stack after Pop operation:");
+  myStack.display();
+}
+
