@@ -20,7 +20,7 @@ bool isPalindrome(String word) {
   return true;
 }
 
-// Array Chunks
+// Array Chunks // From [] to [[],[],[]]
 void main() {
   var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   var len = letters.length;
@@ -163,4 +163,602 @@ void main() {
   print("Stack after Pop operation:");
   myStack.display();
 }
+
+
+// Single Link List
+
+class Node {
+  dynamic data;
+  Node? next;
+
+  Node(this.data);
+}
+
+class SinglyLinkedList {
+  Node? head;
+
+  // Insertion at the beginning of the list
+  void insertAtBeginning(dynamic data) {
+    Node newNode = Node(data);
+    newNode.next = head;
+    head = newNode;
+  }
+
+  // Insertion at the end of the list
+  void insertAtEnd(dynamic data) {
+    Node newNode = Node(data);
+    if (head == null) {
+      head = newNode;
+    } else {
+      Node current = head!;
+      while (current.next != null) {
+        current = current.next!;
+      }
+      current.next = newNode;
+    }
+  }
+
+  // Insertion at a specific position
+  void insertAtPosition(dynamic data, int position) {
+    Node newNode = Node(data);
+    if (position < 0) position = 0;
+
+    if (head == null || position == 0) {
+      newNode.next = head;
+      head = newNode;
+    } else {
+      Node current = head!;
+      for (int i = 0; i < position - 1 && current.next != null; i++) {
+        current = current.next!;
+      }
+      newNode.next = current.next;
+      current.next = newNode;
+    }
+  }
+
+  // Deletion from the beginning of the list
+  void deleteFromBeginning() {
+    if (head != null) {
+      head = head!.next;
+    }
+  }
+
+  // Deletion from the end of the list
+  void deleteFromEnd() {
+    if (head == null) return;
+
+    if (head!.next == null) {
+      head = null;
+    } else {
+      Node current = head!;
+      while (current.next!.next != null) {
+        current = current.next!;
+      }
+      current.next = null;
+    }
+  }
+
+  // Deletion from a specific position
+  void deleteFromPosition(int position) {
+    if (head == null || position < 0) return;
+
+    if (position == 0) {
+      head = head!.next;
+    } else {
+      Node current = head!;
+      for (int i = 0; i < position - 1 && current.next != null; i++) {
+        current = current.next!;
+      }
+      if (current.next != null) {
+        current.next = current.next!.next;
+      }
+    }
+  }
+
+  // Display the elements of the list
+  void display() {
+    Node? current = head;
+    while (current != null) {
+      print(current.data);
+      current = current.next;
+    }
+  }
+}
+
+void main() {
+  SinglyLinkedList myList = SinglyLinkedList();
+
+  myList.insertAtEnd(1);
+  myList.insertAtEnd(2);
+  myList.insertAtEnd(3);
+
+  print("Original List:");
+  myList.display();
+
+  myList.insertAtBeginning(0);
+  myList.insertAtEnd(4);
+  myList.insertAtPosition(2.5, 3);
+
+  print("\nList after Insertions:");
+  myList.display();
+
+  myList.deleteFromBeginning();
+  myList.deleteFromEnd();
+  myList.deleteFromPosition(2);
+
+  print("\nList after Deletions:");
+  myList.display();
+}
+
+// Doubly Linked List
+
+class Node {
+  dynamic data;
+  Node? prev;
+  Node? next;
+
+  Node(this.data);
+}
+
+class DoublyLinkedList {
+  Node? head;
+  Node? tail;
+
+  // Insertion at the beginning of the list
+  void insertAtBeginning(dynamic data) {
+    Node newNode = Node(data);
+    if (head == null) {
+      head = newNode;
+      tail = newNode;
+    } else {
+      newNode.next = head;
+      head!.prev = newNode;
+      head = newNode;
+    }
+  }
+
+  // Insertion at the end of the list
+  void insertAtEnd(dynamic data) {
+    Node newNode = Node(data);
+    if (head == null) {
+      head = newNode;
+      tail = newNode;
+    } else {
+      newNode.prev = tail;
+      tail!.next = newNode;
+      tail = newNode;
+    }
+  }
+
+  // Insertion at a specific position
+  void insertAtPosition(dynamic data, int position) {
+    Node newNode = Node(data);
+    if (position < 0) position = 0;
+
+    if (head == null || position == 0) {
+      insertAtBeginning(data);
+    } else {
+      Node? current = head;
+      for (int i = 0; i < position - 1 && current != null; i++) {
+        current = current.next;
+      }
+
+      if (current == null) {
+        insertAtEnd(data);
+      } else {
+        newNode.next = current.next;
+        newNode.prev = current;
+        current.next!.prev = newNode;
+        current.next = newNode;
+      }
+    }
+  }
+
+  // Deletion from the beginning of the list
+  void deleteFromBeginning() {
+    if (head == null) return;
+
+    if (head == tail) {
+      head = null;
+      tail = null;
+    } else {
+      head = head!.next;
+      head!.prev = null;
+    }
+  }
+
+  // Deletion from the end of the list
+  void deleteFromEnd() {
+    if (tail == null) return;
+
+    if (head == tail) {
+      head = null;
+      tail = null;
+    } else {
+      tail = tail!.prev;
+      tail!.next = null;
+    }
+  }
+
+  // Deletion from a specific position
+  void deleteFromPosition(int position) {
+    if (head == null || position < 0) return;
+
+    if (position == 0) {
+      deleteFromBeginning();
+    } else {
+      Node? current = head;
+      for (int i = 0; i < position && current != null; i++) {
+        current = current.next;
+      }
+
+      if (current == null) return;
+
+      if (current == tail) {
+        deleteFromEnd();
+      } else {
+        current.prev!.next = current.next;
+        current.next!.prev = current.prev;
+      }
+    }
+  }
+
+  // Display the elements of the list
+  void display() {
+    Node? current = head;
+    while (current != null) {
+      print(current.data);
+      current = current.next;
+    }
+  }
+}
+
+void main() {
+  DoublyLinkedList myList = DoublyLinkedList();
+
+  myList.insertAtEnd(1);
+  myList.insertAtEnd(2);
+  myList.insertAtEnd(3);
+
+  print("Original List:");
+  myList.display();
+
+  myList.insertAtBeginning(0);
+  myList.insertAtEnd(4);
+  myList.insertAtPosition(2.5, 3);
+
+  print("\nList after Insertions:");
+  myList.display();
+
+  myList.deleteFromBeginning();
+  myList.deleteFromEnd();
+  myList.deleteFromPosition(2);
+
+  print("\nList after Deletions:");
+  myList.display();
+}
+
+
+// Queue
+
+class Queue {
+  List<dynamic> _items = [];
+  
+  bool get isEmpty => _items.isEmpty;
+  
+  void enqueue(dynamic item) {
+    _items.add(item);
+  }
+  
+  dynamic dequeue() {
+    if(_items.isEmpty){
+      throw StateError("Queue is empty");
+    }
+    return _items.removeAt(0);
+  }
+  
+  dynamic front() {
+    if(_items.isEmpty){
+      throw StateError("Queue is empty");
+    }
+    return _items.first;
+  }
+  
+  void display() {
+    print("Queue: $_items");
+  }
+}
+
+void main() {
+  Queue myQueue = Queue();
+  myQueue.enqueue(1);
+  myQueue.enqueue(2);
+  myQueue.enqueue(3);
+  
+  print("Original Queue:");
+  myQueue.display();
+  
+  print("\nDequeue operation result: ${myQueue.dequeue()}");
+
+  print("Queue after Dequeue operation:");
+  myQueue.display();
+}
+
+
+// Linear Search Time Complexity - o(n)
+
+void main() {
+  var list = [0,2,5,8,10,12,15,30];
+  print(linearSearch(list, 31));
+  
+}
+
+String? linearSearch(List<int> list, int x){
+  for(int i = 0; i< list.length; i++) {
+    if(x == list[i]){
+      return "Found x at index $i";
+    }
+  }
+  
+  return "Not Found";
+}
+
+
+// Factorial
+
+int factorial(int n){
+  if(n == 0 || n == 1){
+    return 1;
+  }
+  return n * factorial(n - 1);
+}
+
+void main() {
+  int n = 3;
+  print("The Factorial is--> ${factorial(n)}");
+}
+
+// Fabonaci
+
+int fibonacci(int n) {
+  if (n <= 1) {
+    return n;
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void main() {
+  int n = 10;
+  print("Fibonacci sequence up to $n terms:");
+  for (int i = 0; i < n; i++) {
+    print(fibonacci(i));
+  }
+}
+
+
+// Binary Search
+
+int binarySearch(List<int> array, int target, int left, int right){
+  if(left <= right){
+    
+   int mid = (left + right) ~/2;
+    
+   if (array[mid] == target) {
+      return mid; // Return the index if the target is found
+    } else if (array[mid] < target) {
+      return binarySearch(array, target, mid + 1, right);
+    } else {
+      return binarySearch(array, target, left, mid - 1);
+    }
+  }
+  
+  return -1;
+}
+
+void main() {
+  List<int> array = [2,4,6,8,10,12,14];
+  int target = 12;
+  
+  int result = binarySearch(array, target, 0, array.length - 1);
+
+  if (result != -1) {
+    print("Element $target found at index $result.");
+  } else {
+    print("Element $target not found in the array.");
+  }
+}
+
+// Bubble Sort
+
+void main() {
+  List<int> array = [5,1,4,2,8];
+  List<int> sortedArray = bubbleSort(array);
+  print(sortedArray);
+ 
+}
+
+ bubbleSort(List<int> array){
+  int lengthOfArray = array.length;
+  for(int i = 0; i < lengthOfArray - 1; i++){
+    print('Index i at pos: ${i}');
+    for(int j = 0; j < lengthOfArray - i - 1; j++) {
+      print('loop:${i}');
+      print('index i and j at pos: ${i}  &  ${j}');
+      
+      if (array[j] > array[j+1]){
+        int temp = array[j];
+        array[j] = array[j+1];
+        array[j+1] = temp;
+        
+         print(
+            'element at pos j and j+1 after swap: ${array[j]} & ${array[j + 1]}');
+      }
+    }
+  }
+   
+ return (array);  
+}
+
+// Check Number is odd or even
+
+void main() {
+  var checkDouble = isDouble(3);
+}
+
+void isDouble(int number){
+  var evenOrOdd = number %2 == 0?'even':'odd';
+  print(evenOrOdd);
+}
+
+// Sorting of Array
+
+var arr = [1,7,2,8,3,4,5,0,9];
+  
+  for(int i = 1; i < arr.length; i++){
+    for (int j = 0; j < i; j++){
+      if(arr[i] < arr[j]){
+        var x = arr[i];
+        arr[i] = arr[j];
+        arr[j] = x;
+      }
+    }
+  }
+  print("The array is -> $arr");
+
+
+// Second Highest Number
+
+void main() {
+  var arr = [1,7,2,8,3,4,5,0,9];
+  
+  for(int i = 1; i < arr.length; i++){
+    for (int j = 0; j < i; j++){
+      if(arr[i] < arr[j]){
+        var x = arr[i];
+        arr[i] = arr[j];
+        arr[j] = x;
+      }
+    }
+  }
+  print("The array is -> $arr");
+  
+  int max = arr[0];
+  int secondMax = arr[0];
+  for(int x in arr){
+    if(x > max){
+      secondMax = max;
+      max = x;
+    } else if (x > secondMax && x != max){
+      secondMax = x;
+    }
+  }
+  print("The Second largest number is --> $secondMax");
+}
+
+// Merge Sort
+
+void main() {
+  List<int> list = [8,7,6,5,4,3,2,1];
+  print("Given Array is :\n$list");
+  List<int> sortedList = mergeSort(list);
+  print("Sorted Array is :\n$sortedList");
+}
+
+List<int> mergeSort(List<int> array) {
+  if (array.length <= 1){
+    return array;
+  }
+  
+  // split in the middle of the array
+  int splitIndex = array.length ~/ 2;
+  
+  // recursively call merge sort on left and right array
+  List<int> leftArray = mergeSort(array.sublist(0,splitIndex));
+  List<int> rightArray = mergeSort(array.sublist(splitIndex));
+  return merge(leftArray, rightArray);
+}
+
+List<int> merge(left_array, right_array) {
+  List<int> result = [];
+  int? i = 0;
+  int? j = 0;
+  
+  // Search for the smallest element in left and right arrays
+  // array and insert it into result
+  // After the loop only one array has remaining elements
+  while (i! < left_array.length && j! < right_array.length) {
+    if (left_array[i] <= right_array[j]) {
+      result.add(left_array[i]);
+      i++;
+    } else {
+      result.add(right_array[j]);
+      j++;
+    }
+  }
+  
+  // Insert remaining elements of left array into result
+  // as long as there are remaining elements
+  while (i! < left_array.length) {
+    result.add(left_array[i]);
+    i++;
+  }
+  // Insert remaining elements of right array into result
+  // as long as there are remaining elements
+  while (j! < right_array.length) {
+    result.add(right_array[j]);
+    j++;
+  }
+  return result;
+}
+
+
+// Insertion Sort
+
+void main() {
+  print(insertionSort([8,9, 4, 2, 6,10,12]));
+}
+
+List<int> insertionSort(List<int> list) {
+  for (int j = 1; j < list.length; j++) {
+    int key = list[j];
+
+    int i = j - 1;
+
+    while (i >= 0 && list[i] > key) {
+      list[i + 1] = list[i];
+      i = i - 1;
+      list[i + 1] = key;
+    }
+  }
+  return list;
+}
+
+
+// Prime Numbers 
+
+void main(){
+  print(isPrime(25));
+  var myList = [2,3,4,7,5,12,11,15,21,19,20];
+  // Invoke the getPrimeNo() function
+  getPrimeNo(myList);
+}
+
+bool isPrime(int number){
+  if(number <= 1) return false; // Prime number is > 1
+  for(int i=2; i<number; i++){
+    if(number%i == 0) return false;
+  }
+  return true;
+}
+
+getPrimeNo(List<int> numbers){
+  List<int> primeNumbers = [];
+  for(int val in numbers){
+    if(isPrime(val)){
+      primeNumbers.add(val);
+    }
+  }
+  print('The prime numbers in the List: $primeNumbers');
+}
+
 
