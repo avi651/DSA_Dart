@@ -1,3 +1,41 @@
+// Highest and Lowest Number
+
+void main() {
+  var geekList = [121, 12, 33, 14, 3]; 
+  
+  var largestGeekValue = geekList[0];
+  var smallestGeekValue = geekList[0];
+  
+  for (int i = 0; i<geekList.length; i++){
+    if(geekList[i] > largestGeekValue){
+      largestGeekValue = geekList[i];
+    }
+    
+    // Checking smallest value in the list
+    if(geekList[i] < smallestGeekValue){
+      smallestGeekValue = geekList[i];
+    }
+  }
+  
+   // Printing the values 
+  print("Smallest value in the list : $smallestGeekValue"); 
+  print("Largest value in the list : $largestGeekValue"); 
+}
+
+// Missing Number
+
+Iterable<int> findMissingInts(List<int> ints) sync* {
+  for(int i = 0; i< ints.length - 1; i++){
+    for(int j = ints[i] + 1; j< ints[i+1]; j++){
+      yield j;
+    }
+  }
+}
+
+void main() {
+  print(findMissingInts([1,2,4,5,8])); //(3, 6, 7)
+}
+
 //Reversed String
 
 void main() {
@@ -91,31 +129,6 @@ int fibonacci(int n){
   }
   
   return fibonacci(n -1) + fibonacci(n - 2);
-}
-
-//Binary Tree
-
-List sortedData = [0,1,2,3,4,5,6,7,8,9];
-
-void findMe(target, start, end) {
-  int middle = start + end ~/2;
-  
-  if (middle == target){
-   return print("Found you at index $middle"); 
-  }
-  
-  if (target < sortedData[middle]){
-    return findMe(target, start, middle - 1);
-  }
-  
-  if (target > sortedData[middle]) {
-    return findMe(target, middle + 1, end);
-  }
-  
-}
-
-void main() {
-  findMe(5,0, sortedData.length);
 }
 
 
